@@ -13,9 +13,7 @@
    <meta name="description" content="My name is Suraj Kadian and this is my website">
    <meta name="theme-color" content="#000">
    <meta name="msvalidate.01" content="8BC00526195B4872680B9AAB2BAAB836" />
-   <!--<script type="text/javascript">
-        window.location.replace("https://surajkadian.github.io/TypingPractice/");
-    </script>-->
+
    <!-- Google tag (gtag.js) -->
    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z8YMBKEQY6"></script>
    <script>
@@ -26,6 +24,10 @@
       gtag('config', 'G-Z8YMBKEQY6');
    </script>
    <style>
+      * {
+         user-select: none;
+      }
+
       body {
          margin: 0;
          font-family: system-ui, sans-serif;
@@ -39,6 +41,7 @@
          margin: auto;
          max-width: 100rem;
          padding-inline: 2rem;
+         z-index: 1;
       }
 
       h1 {
@@ -94,8 +97,8 @@
       }
 
       article {
-         background: rgba(255, 255, 255, 0.05);
-         border: 1px solid rgba(255, 255, 255, 0.1);
+         background: rgba(255, 255, 255, 0.1);
+         border: 1px solid rgba(255, 255, 255, 0.5);
          border-radius: 0.75rem;
          padding: 1.25rem;
       }
@@ -112,11 +115,12 @@
       }
 
       .btn-light {
-         background: rgba(255, 255, 255, 0.1);
+         background: rgba(255, 255, 255, 0.2);
+         color: white;
       }
 
       .btn-light:hover {
-         background: rgba(255, 255, 255, 0.2);
+         background: rgba(255, 255, 255, 0.5);
       }
 
       .btn-purple {
@@ -132,8 +136,8 @@
          display: flex;
          align-items: center;
          gap: 0.75rem;
-         background: rgba(255, 255, 255, 0.05);
-         border: 1px solid rgba(255, 255, 255, 0.1);
+         background: rgba(255, 255, 255, 0.1);
+         border: 1px solid rgba(255, 255, 255, 0.5);
          border-radius: 0.5rem;
          padding: 1rem;
       }
@@ -158,9 +162,20 @@
 
          h1 {
             padding-inline-start: 2rem;
+            padding-bottom: 10rem;
          }
 
       }
+
+      canvas#colors {
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100vw;
+         height: 100vh;
+         z-index: -1;
+      }
+
 
       canvas#particles {
          position: fixed;
@@ -175,7 +190,8 @@
 </head>
 
 <body>
-   <canvas id="particles"></canvas>
+   <canvas id="colors"></canvas>
+   <!--<canvas id="particles"></canvas>-->
 
    <main>
       <section
@@ -187,7 +203,7 @@
       <section id="projects" style="padding-inline: 2rem;">
          <h2>Projects</h2>
          <p>Small, focused tools — one ready, more on the way.</p>
-         <div class="grid grid-cols-2" style="margin-top:1.5rem">
+         <div class="grid grid-cols-2" style="margin-top:1.5rem;">
             <article>
                <h3 style="font-size:1.1rem;font-weight:600;">Typing Practice — Govt Exam Format</h3>
                <div style="font-size:0.8rem;opacity:0.8;margin-top:0.25rem;">
@@ -210,7 +226,7 @@
             </article>
 
             <article
-               style="border:1px dashed rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;background:linear-gradient(to bottom,rgba(255,255,255,0.05),transparent);">
+               style="border:1px dashed rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;background:linear-gradient(to bottom,rgba(255,255,255,0.1),transparent);">
                <div style="text-align:center;">
                   <div style="font-size:0.85rem;opacity:0.8;">Empty slot</div>
                   <div style="margin-top:0.5rem;font-weight:500;">More projects soon</div>
@@ -257,39 +273,14 @@
          Crafted with simple intentions — curiosity over credentials. © SurajKadian
       </footer>
    </main>
-   <script>
-      const canvas = document.getElementById('particles');
-      const ctx = canvas.getContext('2d');
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
 
-      let particles = [];
-      for (let i = 0; i < 50; i++) {
-         particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            r: Math.random() * 2 + 1,
-            dx: (Math.random() - 0.5) * 0.5,
-            dy: (Math.random() - 0.5) * 0.5
-         });
-      }
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"
+      integrity="sha512-WoO4Ih0CDOSLYafy22wZD/mcJ7k0ESLqtQsFa6zFKnEUrbtuGU+GkLtVhgt93xa2qewG5gKEC6CWlN8OaCTSVg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <script src="./colors.js"></script>
+   <!--<script src="./particles.js"></script>-->
 
-      function drawParticles() {
-         ctx.clearRect(0, 0, canvas.width, canvas.height);
-         ctx.fillStyle = 'rgba(255,255,255,0.2)';
-         particles.forEach(p => {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fill();
-            p.x += p.dx;
-            p.y += p.dy;
-            if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-            if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-         });
-         requestAnimationFrame(drawParticles);
-      }
-      drawParticles();
-   </script>
+
    <script>if ('serviceWorker' in navigator) {
          window.addEventListener('load', function () {
             navigator.serviceWorker.register('service-worker.js');
