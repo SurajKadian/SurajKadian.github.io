@@ -30,10 +30,10 @@ const canvas = document.getElementsByTagName('canvas')[0];
 resizeCanvas();
 
 let config = {
-    SIM_RESOLUTION: 128,
-    DYE_RESOLUTION: 1024,
-    DENSITY_DISSIPATION: 1,
-    VELOCITY_DISSIPATION: 0.2,
+    SIM_RESOLUTION: 32,
+    DYE_RESOLUTION: 128,
+    DENSITY_DISSIPATION: 0.6,
+    VELOCITY_DISSIPATION: 0.1,
     PRESSURE: 0.8,
     PRESSURE_ITERATIONS: 20,
     CURL: 0,
@@ -46,7 +46,7 @@ let config = {
     BACK_COLOR: { r: 0, g: 0, b: 0 },
     TRANSPARENT: false,
     BLOOM: true,
-    BLOOM_ITERATIONS: 8,
+    BLOOM_ITERATIONS: 4,
     BLOOM_RESOLUTION: 256,
     BLOOM_INTENSITY: 0.8,
     BLOOM_THRESHOLD: 0.6,
@@ -1028,7 +1028,7 @@ function updateKeywords () {
 
 updateKeywords();
 initFramebuffers();
-multipleSplats(parseInt(Math.random() * 20) + 5);
+multipleSplats(parseInt(Math.random() * 20));
 
 let lastUpdateTime = Date.now();
 let colorUpdateTimer = 0.0;
@@ -1344,7 +1344,6 @@ window.addEventListener('mouseup', () => {
 });
 
 window.addEventListener('touchstart', e => {
-    e.preventDefault();
     const touches = e.targetTouches;
     while (touches.length >= pointers.length)
         pointers.push(new pointerPrototype());
@@ -1355,8 +1354,7 @@ window.addEventListener('touchstart', e => {
     }
 });
 
-window.addEventListener('touchmove', e => {
-    e.preventDefault();
+window.addEventListener('touchmove', e => {  
     const touches = e.targetTouches;
     for (let i = 0; i < touches.length; i++) {
         let pointer = pointers[i + 1];
@@ -1505,3 +1503,14 @@ function hashCode (s) {
     }
     return hash;
 };
+
+function scheduleRandomSplats() {
+    const delay = Math.random() * 3000 + 3000; // 3–6s
+    setTimeout(() => {
+        const amount = Math.random() < 0.7 ? 1 : 2;
+        multipleSplats(amount);
+        scheduleRandomSplats();
+    }, delay);
+}
+
+scheduleRandomSplats();
